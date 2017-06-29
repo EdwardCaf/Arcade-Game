@@ -1,6 +1,11 @@
-frontend-nanodegree-arcade-game
-===============================
+# Arcade Game
+--------------------
+## Controls
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+  * Use the arrow keys on your keyboard to move up, down, left, and right.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## How to Play
+
+  1. Move the character to the water tiles to move on to the next level.
+  2. Avoid the enemy bugs or you'll get sent back to the start.
+  3. After each level the amount of bugs increases by one!
