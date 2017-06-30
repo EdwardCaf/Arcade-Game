@@ -1,5 +1,9 @@
 # Arcade Game
---------------------
+------------------
+## How to run
+
+  * Open the index.html file with a web browser.
+  
 ## Controls
 
   * Use the arrow keys on your keyboard to move up, down, left, and right.

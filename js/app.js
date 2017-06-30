@@ -1,3 +1,5 @@
+"use strict";
+
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     // Variables applied to each of our instances go here,
@@ -11,17 +13,30 @@ var Enemy = function(x, y, speed) {
     this.sprite = 'images/enemy-bug.png';
 };
 
+Enemy.prototype.collide = function() {
+
+      // Collision with enemy and player
+      if (player.y + 130 >= this.y + 90 &&
+          player.y + 70 <= this.y + 130 &&
+          player.x + 25 <= this.x + 90 &&
+          player.x + 75 >= this.x + 10) {
+
+          player.x = 202;
+          player.y = 380;
+      }
+
+      // Loops Enemy movement when it reaches the end of the screen
+      if (this.x >= 505) {
+          this.x = -110;
+      }
+  };
+
 Enemy.prototype.update = function(dt) {
     // Processes movement of enemies
     this.x += this.speed * dt;
 
-    // Checks for collision
-    Collide(this);
-
-    // Loops Enemy movement when it reaches the end of the screen
-    if (this.x >= 505) {
-        this.x = -110;
-    }
+    // Checks for collision and loops when it passes out of the screen
+    this.collide();
 };
 
 // Draw the enemy on the screen, required method for game
@@ -30,34 +45,61 @@ Enemy.prototype.render = function() {
 };
 
 // Player class
-var Player = function(x, y, speed) {
+var Player = function(x, y, step) {
     this.x = x;
     this.y = y;
-    this.speed = speed;
+    this.step = step;
     this.sprite = 'images/char-boy.png';
 };
 
-Player.prototype.update = function() {
+Player.prototype.collide = function() {
+      // Collision with water tiles to proceed to the next level
+      if (player.y + 60 <= 100) {
+          player.x = 202;
+          player.y = 380;
+          ctx.fillStyle = 'white';
+          ctx.fillRect(0, 0, 505, 171);
+          level += 1;
+          score += 1;
+          document.getElementById('score').innerHTML = score;
+          nextLevel(level);
+      }
 
-}
+      // Collision with walls
+      if (player.y > 380) {
+          player.y = 380;
+      }
+      if (player.x > 402.5) {
+          player.x = 402.5;
+      }
+      if (player.x < 2.5) {
+          player.x = 2.5;
+      }
+  };
+
+Player.prototype.update = function() {
+    // Checks for collision with walls and water tiles
+    this.collide();
+};
 
 // Draw the player on the screen, required method for game
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
 // Handles keypress for player movement
 Player.prototype.handleInput = function(keyPress) {
     if (keyPress == 'left') {
-        player.x -= player.speed * 2;
+        this.x -= this.step * 2;
     }
     if (keyPress == 'up') {
-        player.y -= player.speed + 30;
+        this.y -= this.step + 30;
     }
     if (keyPress == 'right') {
-        player.x += player.speed * 2;
+        this.x += this.step * 2;
     }
     if (keyPress == 'down') {
-        player.y += player.speed + 30;
+        this.y += this.step + 30;
     }
 };
 
@@ -84,41 +126,6 @@ var nextLevel = function(level) {
     for (var i = 0; i < level; i++) {
         var enemy = new Enemy(-110, row(), Math.floor(Math.random() * 200 + 100));
         allEnemies.push(enemy);
-    }
-};
-
-var Collide = function(Bug) {
-    // Collision with enemy and player
-    if (player.y + 130 >= Bug.y + 90 &&
-        player.y + 70 <= Bug.y + 130 &&
-        player.x + 25 <= Bug.x + 90 &&
-        player.x + 75 >= Bug.x + 10) {
-
-        player.x = 202;
-        player.y = 380;
-    }
-
-    // Collision with top to the next level
-    if (player.y + 60 <= 100) {
-        player.x = 202;
-        player.y = 380;
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, 505, 171);
-        level += 1;
-        score += 1;
-        document.getElementById('score').innerHTML = score;
-        nextLevel(level);
-    }
-
-    // Collision with walls
-    if (player.y > 380) {
-        player.y = 380;
-    }
-    if (player.x > 402.5) {
-        player.x = 402.5;
-    }
-    if (player.x < 2.5) {
-        player.x = 2.5;
     }
 };
 
