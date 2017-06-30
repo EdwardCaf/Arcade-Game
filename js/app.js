@@ -25,15 +25,16 @@ Enemy.prototype.collide = function() {
           player.y = 380;
       }
 
-      // Loops Enemy movement when it reaches the end of the screen
-      if (this.x >= 505) {
-          this.x = -110;
-      }
   };
 
 Enemy.prototype.update = function(dt) {
     // Processes movement of enemies
     this.x += this.speed * dt;
+
+    // Loops Enemy movement when it reaches the end of the screen
+    if (this.x >= 505) {
+        this.x = -110;
+    }
 
     // Checks for collision and loops when it passes out of the screen
     this.collide();
@@ -54,9 +55,9 @@ var Player = function(x, y, step) {
 
 Player.prototype.collide = function() {
       // Collision with water tiles to proceed to the next level
-      if (player.y + 60 <= 100) {
-          player.x = 202;
-          player.y = 380;
+      if (this.y + 60 <= 100) {
+          this.x = 202;
+          this.y = 380;
           ctx.fillStyle = 'white';
           ctx.fillRect(0, 0, 505, 171);
           level += 1;
@@ -66,14 +67,14 @@ Player.prototype.collide = function() {
       }
 
       // Collision with walls
-      if (player.y > 380) {
-          player.y = 380;
+      if (this.y > 380) {
+          this.y = 380;
       }
-      if (player.x > 402.5) {
-          player.x = 402.5;
+      if (this.x > 402.5) {
+          this.x = 402.5;
       }
-      if (player.x < 2.5) {
-          player.x = 2.5;
+      if (this.x < 2.5) {
+          this.x = 2.5;
       }
   };
 
